@@ -9,7 +9,7 @@
 | **Member Names** | Bùi Thành Nghĩa, Lê Thị Thùy Trang, Trần Minh Quang, Hoàng Kim Hùng, Nguyễn Công Thịnh, Phạm Công Huy, Nguyễn Tất Văn, Lê Nguyễn Nhật Thành, Đỗ Phúc|
 | **LLM Used** | Claude Sonnet 4.6 via Amazon Bedrock |
 | **Framework / Approach** | Raw Bedrock API + custom Python orchestrator |
-| **Repository Link** | `<!-- https://github.com/hunghk43/GeekBrain_AI -->` |
+| **Repository Link** | `<!-- https://github.com/hunghk43/GeekBrain_AI Branch: gen-pro -->` |
 
 ---
 
