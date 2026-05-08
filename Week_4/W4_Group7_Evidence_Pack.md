@@ -260,11 +260,12 @@ Turn 4: "The postmortem mentioned a review deadline. Is it overdue?"
 
 **Test question used:**
 ```
-<!-- VD: "Is NotificationSvc in a healthy state? Assess its reliability and flag anything that needs attention." -->
+<!-- VD: "GeekBrain wants to cut infrastructure costs by 15% in Q2. Analyze current spending and recommend which services to optimize first." -->
 ```
 
 
-> ![L5 Conversation 1](./L1-L2%20png/trace.jpg) — Structured investigation output với visible reasoning
+> ![L5 Conversation 1](./L1-L2%20png/trace.jpg)
+> — Structured investigation output với visible reasoning
 
 ## Section 5 — Reflection
 
