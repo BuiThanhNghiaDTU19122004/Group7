@@ -250,7 +250,7 @@ Turn 4: "The postmortem mentioned a review deadline. Is it overdue?"
 ### Bonus A — Observability Dashboard `[+0.5 điểm]`
 
 
-> ⬆️ **[CHÈN ẢNH TẠI ĐÂY]** — Observability dashboard đang process một câu hỏi
+> ![L5 Conversation 1](./L1-L2%20png/observation_board.jpg) — Observability dashboard đang process một câu hỏi
 
 ---
 
@@ -264,7 +264,7 @@ Turn 4: "The postmortem mentioned a review deadline. Is it overdue?"
 ```
 
 
-> ⬆️ **[CHÈN ẢNH TẠI ĐÂY]** — Structured investigation output với visible reasoning
+> ![L5 Conversation 1](./L1-L2%20png/trace.jpg) — Structured investigation output với visible reasoning
 
 ## Section 5 — Reflection
 
