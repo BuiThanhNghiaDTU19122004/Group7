@@ -1,8 +1,4 @@
-# W4 Evidence Pack — Build an AI That Actually Answers
-> **Lưu ý cho nhóm:** Tất cả các ô `<!-- 📸 SCREENSHOT: ... -->` là nơi bạn chèn ảnh vào.  
-> Cú pháp chèn ảnh trong Markdown: `![Mô tả ảnh](./screenshots/ten_anh.png)`  
-> Hãy tạo thư mục `docs/screenshots/` để lưu toàn bộ ảnh trước khi commit.
-
+# W4 Evidence Pack — Group 7
 ---
 
 ## Section 1 — Cover
@@ -10,18 +6,10 @@
 | Field | Value |
 |-------|-------|
 | **Group Number** | Group 7 |
-| **Member Names** | Bùi Thành Nghĩa
-Lê Thị Thùy Trang
-Trần Minh Quang
-Hoàng Kim Hùng
-Nguyễn Công Thịnh
-Phạm Công Huy
-Nguyễn Tất Văn
-Lê Nguyễn Nhật Thành
-Đỗ Phúc|
+| **Member Names** | Bùi Thành Nghĩa, Lê Thị Thùy Trang, Trần Minh Quang, Hoàng Kim Hùng, Nguyễn Công Thịnh, Phạm Công Huy, Nguyễn Tất Văn, Lê Nguyễn Nhật Thành, Đỗ Phúc|
 | **LLM Used** | Claude Sonnet 4.6 via Amazon Bedrock |
 | **Framework / Approach** | Raw Bedrock API + custom Python orchestrator |
-| **Repository Link** | `<!-- URL GitHub/GitLab repo của nhóm -->` |
+| **Repository Link** | `<!-- https://github.com/hunghk43/GeekBrain_AI -->` |
 
 ---
 
@@ -78,16 +66,9 @@ Lê Nguyễn Nhật Thành
 ---
 
 ### 2.4 System Running — Startup Screenshot
+ Ảnh terminal hoặc browser cho thấy hệ thống đang chạy.
 
-<!-- 📸 SCREENSHOT [REQUIRED]:
-     Chèn ảnh terminal hoặc browser cho thấy hệ thống đang chạy.
-     VD: terminal với `uvicorn app:app --port 8080` đang run, hoặc URL cloud-deployed.
-     
-     ![System Running](./screenshots/system_startup.png)
--->
-
-> ⬆️ **[CHÈN ẢNH TẠI ĐÂY]** — Terminal hoặc URL cho thấy app đang chạy.
-
+ ![System Running](./L1-L2%20png/tmal%20Log.png)
 ---
 
 ## Section 3 — Decision Log
@@ -97,62 +78,45 @@ Lê Nguyễn Nhật Thành
 
 ---
 
-### Decision 1: `<!-- Tiêu đề quyết định, VD: Chọn Bedrock KB thay vì custom ChromaDB -->`
+### Decision 1: Raw Bedrock Converse API + custom tool loop
 
 **What we chose:**
-> `<!-- Mô tả quyết định cụ thể —  dùng service/approach nào, config ra sao -->`
+> Dùng `bedrock-runtime.converse` với tool definitions và vòng lặp `tool_use` trong `app/agent.py`.
 
 **Why:**
-> `<!-- Lý do kỹ thuật: tốc độ setup, trade-off giữa control vs convenience, hạn chế về thời gian... -->`
+> Cần kiểm soát routing và dễ debug (log rõ ràng), đúng yêu cầu raw API.
 
 **What we learned:**
-> `<!-- Điều gì hoạt động tốt? Điều gì bị hạn chế? Nếu làm lại sẽ thay đổi gì? -->`
+> Phải viết thêm glue code, nhưng hành vi tool call rõ ràng và dễ trace.
 
 ---
 
-### Decision 2: `<!-- VD: Tăng retrieval K từ 3 lên 10 để giải quyết conflict -->`
+### Decision 2: Tăng retrieval K + xử lý conflict bằng prompt
 
 **What we chose:**
-> `<!-- ... -->`
+> `RETRIEVAL_K=10` và system prompt yêu cầu ưu tiên document mới hơn (không archived) khi conflict.
 
 **Why:**
-> `<!-- ... -->`
+> L2 cần lấy đủ chunk từ nhiều tài liệu và resolve xung đột v1/v2.
 
 **What we learned:**
-> `<!-- ... -->`
+> K lớn giúp coverage tốt hơn, nhưng vẫn cần rule trong prompt để tránh chọn sai doc.
 
 ---
 
-### Decision 3: `<!-- VD: Dùng raw API tool calling thay vì Bedrock Agents -->`
+### Decision 3: Memory bằng query rewriting + window
 
 **What we chose:**
-> `<!-- ... -->`
+> Lưu history per-session trong memory; rewrite câu hỏi bằng LLM từ 4 turn gần nhất; giữ window `MEMORY_WINDOW=10`.
 
 **Why:**
-> `<!-- ... -->`
+> Resolve pronoun mà không phải đẩy toàn bộ lịch sử vào context.
 
 **What we learned:**
-> `<!-- ... -->`
+> Query rewriting nhẹ, hiệu quả cho L4 demo; nhược điểm là mất state khi restart.
 
 ---
-
-### ❌ What Did NOT Work (Required)
-
-**We tried:** `<!-- Mô tả approach/service/config đã thử -->`
-
-**It failed because:** `<!-- Nguyên nhân cụ thể: timeout, empty results, wrong routing, auth error... -->`
-
-**So we switched to:** `<!-- Giải pháp thay thế và kết quả -->`
-
----
-
 ## Section 4 — Per-Level Evidence
-
-> **Quy tắc:** Mỗi level cần **2 thứ**:
-> 1. **Screenshot output đúng** — câu trả lời của hệ thống
-> 2. **Proof** — log/trace cho thấy hệ thống thực sự xử lý (không phải hardcode hoặc hallucinate)
-
----
 
 ### L1 — Retrieval (Simple RAG)
 
@@ -178,7 +142,7 @@ Lê Nguyễn Nhật Thành
      ![L1 Correct Answer](./screenshots/L1_correct_answer.png)
 -->
 
-> ⬆️ **[CHÈN ẢNH TẠI ĐÂY]** — Output của hệ thống + source citation
+> ![L1 Correct Answer](./L1-L2%20png/L1%20who%20is%20Team%20Lead.png) — Output của hệ thống + source citation
 
 ---
 
@@ -193,9 +157,9 @@ Lê Nguyễn Nhật Thành
      ![L1 Retrieval Proof](./screenshots/L1_retrieval_log.png)
 -->
 
-> ⬆️ **[CHÈN ẢNH / LOG TẠI ĐÂY]** — Terminal log chứng minh retrieval pipeline hoạt động
+> ![L1 Retrieval Proof](./L1-L2%20png/L1%20Log.png) — Terminal log chứng minh retrieval pipeline hoạt động
 
-**Notes (1-2 dòng):**
+**Notes:**
 > `<!-- VD: "Bedrock KB sync thành công với 36 docs. Retrieval trả về top-5 chunks, chunk từ team_platform.md có relevance score cao nhất." -->`
 
 ---
@@ -211,16 +175,9 @@ Lê Nguyễn Nhật Thành
 **Expected answer:** `1000 req/min (from current v2 doc, NOT archived v1 doc with 500 req/min)`
 
 **Actual answer from system:**
-> `<!-- Paste text output — phải là 1000, không phải 500 -->`
+Output cho thấy hệ thống resolve conflict đúng: chọn 1000 (v2) thay vì 500 (v1 archived).
 
-<!-- 📸 SCREENSHOT [REQUIRED]:
-     Chụp output cho thấy hệ thống resolve conflict đúng: chọn 1000 (v2) thay vì 500 (v1 archived).
-     Lý tưởng nhất là output giải thích lý do chọn document nào.
-     
-     ![L2 Conflict Resolution](./screenshots/L2_conflict_resolution.png)
--->
-
-> ⬆️ **[CHÈN ẢNH TẠI ĐÂY]** — Output + conflict resolution explanation
+>  ![L2 Conflict Resolution](./L1-L2%20png/L2respone.png)
 
 **How our system handles conflicting documents:**
 > `<!-- Mô tả kỹ thuật: VD: "Tăng K=10 để retrieve cả 2 docs. System prompt yêu cầu LLM ưu tiên document có date mới hơn và không có tag 'archived'." -->`
@@ -229,7 +186,7 @@ Lê Nguyễn Nhật Thành
 
 ### L3 — Retrieval + Tools (Tool-Augmented RAG)
 
-#### L3a — Database Query Tool
+####  Database Query Tool
 
 **Test question used:**
 ```
@@ -247,93 +204,27 @@ Lê Nguyễn Nhật Thành
      ![L3 DB Answer](./screenshots/L3_database_answer.png)
 -->
 
-> ⬆️ **[CHÈN ẢNH TẠI ĐÂY]** — Output với con số chính xác từ DB
-
+> ![L3 Metrics Answer](./L1-L2%20png/l3%20answer.png)
 ---
-
-<!-- 📸 LOG/PROOF [REQUIRED — CRITICAL]:
+LOG/PROOF [REQUIRED — CRITICAL]:
      Đây là proof quan trọng nhất. Chụp terminal log cho thấy:
      - LLM ra quyết định gọi tool "query_database"
      - SQL query được tạo ra (VD: SELECT SUM(total_cost) FROM monthly_costs WHERE ...)
      - Kết quả thực từ DB (VD: [{"sum": 16500}])
-     - LLM nhận kết quả và sinh ra final answer
-     
-     Nếu có Observability Dashboard: chụp dashboard thay thế.
-     
-     ![L3 DB Tool Call Proof](./screenshots/L3_tool_call_database.png)
--->
+     - LLM nhận kết quả và sinh ra final answer   
 
-> ⬆️ **[CHÈN LOG/TRACE TẠI ĐÂY]** — Proof tool `query_database` được gọi với real data
+> ![L3 DB Tool Call Proof](./L1-L2%20png/l3log2.png)
 
 ---
 
-#### L3b — Service Metrics Tool (Live API)
-
-**Test question used:**
-```
-<!-- VD: "What is PaymentGW's current p99 latency?" -->
-```
-
-**Expected answer:** `~185ms (from Monitoring API, NOT from a document)`
-
-**Actual answer from system:**
-> `<!-- Paste text output -->`
-
-<!-- 📸 SCREENSHOT [REQUIRED]:
-     Chụp output với latency thực từ Monitoring API.
-     
-     ![L3 Metrics Answer](./screenshots/L3_metrics_answer.png)
--->
-
-> ⬆️ **[CHÈN ẢNH TẠI ĐÂY]** — Output với live metrics
-
-<!-- 📸 LOG/PROOF [REQUIRED]:
-     Log cho thấy HTTP call tới http://localhost:8000/metrics/PaymentGW được thực hiện
-     và kết quả JSON trả về được inject vào LLM context.
-     
-     ![L3 Metrics Tool Proof](./screenshots/L3_tool_call_metrics.png)
--->
-
-> ⬆️ **[CHÈN LOG TẠI ĐÂY]** — HTTP call tới Monitoring API + JSON response
-
----
-#### L3c — Combined Tool Call (Bonus complexity)
-
-**Test question used:**
-```
-<!-- VD: "Is NotificationSvc meeting its SLA targets?" -->
-```
-
-**Expected answer:** `No — current latency ~3200ms vs SLA target 2000ms; error rate 2.1% vs target 1.0%`
-
-**Actual answer from system:**
-> `<!-- Paste text output -->`
-
-<!-- 📸 SCREENSHOT [OPTIONAL nhưng rất có giá trị]:
-     Câu hỏi này yêu cầu BOTH tools: get_service_metrics (live) + query_database (SLA targets).
-     Chụp output cho thấy hệ thống so sánh đúng hai nguồn data.
-     
-     ![L3 Combined Tools](./screenshots/L3_combined_tools.png)
--->
-
-> ⬆️ **[CHÈN ẢNH TẠI ĐÂY — OPTIONAL]** — Output so sánh live metrics vs SLA targets từ DB
-
-**Notes:**
-> `<!-- Mô tả tool routing: VD: "LLM gọi get_service_metrics trước để lấy current latency/error, sau đó gọi query_database để lấy SLA target, cuối cùng compare và kết luận." -->`
-
----
 
 ### L4 — Memory (Multi-Turn Conversation) `[1.0 điểm]`
-
-> **Lưu ý:** L4 chỉ chiếm 10% điểm. Nếu nhóm còn thời gian mới implement. Nếu không, ghi rõ "Not attempted" và giải thích ngắn.
-
-**Status:** `<!-- Attempted ✅ / Not attempted ❌ -->`
 
 ---
 
 **Memory strategy used:**
-> `<!-- Chọn một: Buffer (all turns) / Window (last N turns) / Query rewriting / DynamoDB session store -->`
-> `<!-- Mô tả implementation cụ thể: VD: "Lưu last 10 messages trong in-memory list. Append vào mỗi LLM call. Production sẽ dùng DynamoDB với PK=session_id, SK=turn_number." -->`
+> `<!-- In memory session store -->`
+> `<!-- Mô tả implementation cụ thể: VD: "Lưu last 10 messages trong in-memory list. Append vào mỗi LLM call. -->`
 
 **Test conversation used:**
 ```
@@ -342,33 +233,22 @@ Turn 2: "Why did its costs spike?"       ← "its" phải resolve = PaymentGW
 Turn 3: "Which team is responsible?"     ← vẫn về PaymentGW
 Turn 4: "The postmortem mentioned a review deadline. Is it overdue?"
 ```
-
-<!-- 📸 SCREENSHOT [REQUIRED nếu L4 attempted]:
-     Chụp TOÀN BỘ conversation (4 turns) trong một màn hình hoặc nhiều ảnh liên tiếp.
-     Phải thấy rõ hệ thống resolve "its" / "their" / "it" đúng sang service/team cụ thể.
      
-     ![L4 Multi-Turn Conversation](./screenshots/L4_conversation_full.png)
--->
+![L4 Conversation 1](./L1-L2%20png/l4%20response-1.png)
 
-> ⬆️ **[CHÈN ẢNH TẠI ĐÂY]** — Full 4-turn conversation với pronoun resolution đúng
+![L4 Conversation 2](./L1-L2%20png/l4%20response%20-2.png)
 
-**Notes (1-2 dòng):**
+![L4 Conversation 3](./L1-L2%20png/l4%20response%20-3.png)
+
+![L4 Conversation 4](./L1-L2%20png/l4%20response%20-4.png)
+
+**Notes:**
 > `<!-- VD: "Sử dụng window memory với last-10-turns. Turn 2 'its' được resolve sang PaymentGW nhờ Turn 1 vẫn còn trong context. Production limitation: in-memory state sẽ mất khi restart." -->`
 
 ---
 
 ### Bonus A — Observability Dashboard `[+0.5 điểm]`
 
-**Status:** `<!-- Attempted ✅ / Not attempted ❌ -->`
-
-<!-- 📸 SCREENSHOT [REQUIRED nếu claim Bonus A]:
-     Chụp dashboard đang hoạt động khi xử lý một câu hỏi:
-     - Panel "Retrieved Chunks": hiển thị top-K chunks với source
-     - Panel "Tool Calls": tool nào được gọi, params gì, result gì
-     - Panel "LLM Input/Output": full prompt gửi vào và answer trả về
-     
-     ![Bonus A Dashboard](./screenshots/bonus_A_dashboard.png)
--->
 
 > ⬆️ **[CHÈN ẢNH TẠI ĐÂY]** — Observability dashboard đang process một câu hỏi
 
@@ -383,35 +263,8 @@ Turn 4: "The postmortem mentioned a review deadline. Is it overdue?"
 <!-- VD: "Is NotificationSvc in a healthy state? Assess its reliability and flag anything that needs attention." -->
 ```
 
-<!-- 📸 SCREENSHOT [REQUIRED nếu claim Bonus B]:
-     Chụp structured output với visible reasoning steps:
-     - Step 1: Agent plan ("I need to check: current status, latency, error rate, SLA targets, recent incidents")
-     - Step 2: Tool calls executed (với results)
-     - Step 3: Structured report/conclusion
-     
-     ![Bonus B Agent Reasoning](./screenshots/bonus_B_agent_reasoning.png)
--->
 
 > ⬆️ **[CHÈN ẢNH TẠI ĐÂY]** — Structured investigation output với visible reasoning
-
----
-
-### Bonus C — Knowledge Base Auto-Sync `[+0.5 điểm]`
-
-**Status:** `<!-- Attempted ✅ / Not attempted ❌ -->`
-
-**Approach:**
-> `<!-- VD: "S3 Event Notification → Lambda trigger → StartIngestionJob API call" hoặc "Jupyter notebook on-demand sync" -->`
-
-<!-- 📸 SCREENSHOT [REQUIRED nếu claim Bonus C]:
-     Chụp Lambda console hoặc script output cho thấy sync được trigger khi S3 thay đổi.
-     
-     ![Bonus C KB Sync](./screenshots/bonus_C_kb_sync.png)
--->
-
-> ⬆️ **[CHÈN ẢNH TẠI ĐÂY]** — KB sync mechanism in action
-
----
 
 ## Section 5 — Reflection
 
@@ -419,14 +272,7 @@ Turn 4: "The postmortem mentioned a review deadline. Is it overdue?"
 
 > `<!-- Thành thật về level nào khó nhất và tại sao.
 >      VD: "L3 khó nhất vì tool routing không ổn định — LLM thỉnh thoảng gọi sai tool hoặc không gọi tool mà hallucinate số liệu.
->           Root cause: tool description không đủ rõ ràng về khi nào dùng DB vs khi nào dùng API." -->`
-
-### What We Would Do Differently With One More Day
-
-> `<!-- VD:
->      1. Implement hybrid search (BM25 + vector) để improve L2 retrieval accuracy
->      2. Thêm query rewriting cho L4 thay vì chỉ dùng buffer memory
->      3. Viết test cases tự động để verify L3 numerical accuracy trước Friday -->`
+>           Lý do: tool description trong prompt tụi em chưa mô tả chi tiết rõ ràng về khi nào dùng tool để query DB vs khi nào dùng API monitoring." -->`
 
 ---
 
@@ -436,16 +282,11 @@ Turn 4: "The postmortem mentioned a review deadline. Is it overdue?"
 
 | Level | Max Points | Self-Score (1-5) | Estimated Points | Status |
 |-------|-----------|-----------------|-----------------|--------|
-| L1 — Retrieval | 2.0 | ` /5` | ` /2.0` | `<!-- ✅ Working / ⚠️ Partial / ❌ Failed -->` |
-| L2 — Multi-Source | 3.0 | ` /5` | ` /3.0` | `<!-- ✅ Working / ⚠️ Partial / ❌ Failed -->` |
-| L3 — Tools | 4.0 | ` /5` | ` /4.0` | `<!-- ✅ Working / ⚠️ Partial / ❌ Failed -->` |
-| L4 — Memory | 1.0 | ` /5` | ` /1.0` | `<!-- ✅ Working / ⚠️ Partial / ❌ Not attempted -->` |
-| **Base Total** | **10.0** | | ` /10.0` | |
-| Bonus A — Dashboard | +0.5 | — | ` /0.5` | `<!-- ✅ / ❌ -->` |
-| Bonus B — Agent Reasoning | +0.5 | — | ` /0.5` | `<!-- ✅ / ❌ -->` |
-| Bonus C — KB Sync | +0.5 | — | ` /0.5` | `<!-- ✅ / ❌ -->` |
-| **Grand Total** | **11.0 max** | | ` /11.0` | |
-
----
-
-*Evidence Pack committed: `<!-- VD: 2026-05-08 09:45 +07:00 -->` | Commit: `<!-- hash -->`*
+| L1 — Retrieval | 2.0 | ` 2/5` | ` 2.0/2.0` | `<!-- ✅ Working -->` |
+| L2 — Multi-Source | 3.0 | ` /5` | ` 3.0/3.0` | `<!-- ✅ Working -->` |
+| L3 — Tools | 4.0 | ` /5` | ` 3.0/4.0` | `<!-- ✅ Working -->` |
+| L4 — Memory | 1.0 | ` /5` | ` 1.0/1.0` | `<!-- ✅ Working -->` |
+| **Base Total** | **10.0** | | ` 9.0/10.0` | |
+| Bonus A — Dashboard | +0.5 | — | ` 0.5/0.5` | `<!-- ✅ -->` |
+| Bonus B — Agent Reasoning | +0.5 | — | ` 0.5/0.5` | `<!-- ✅ -->` |
+| **Grand Total** | **11.0 max** | | ` 10.0/10.0` | |
