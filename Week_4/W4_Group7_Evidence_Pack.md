@@ -10,9 +10,17 @@
 | Field | Value |
 |-------|-------|
 | **Group Number** | Group 7 |
-| **Member Names** | Bùi Thành Nghĩa, Lê Thị Thùy Trang, Trần Minh Quang, Hoàng Kim Hùng, Nguyễn Công Thịnh, Phạm Công Huy, Nguyễn Tất Văn, Lê Nguyễn Nhật Thành, Đỗ Phúc|
+| **Member Names** | Bùi Thành Nghĩa
+Lê Thị Thùy Trang
+Trần Minh Quang
+Hoàng Kim Hùng
+Nguyễn Công Thịnh
+Phạm Công Huy
+Nguyễn Tất Văn
+Lê Nguyễn Nhật Thành
+Đỗ Phúc|
 | **LLM Used** | Claude Sonnet 4.6 via Amazon Bedrock |
-| **Framework / Approach** | Raw Bedrock Converse API + custom tool loop(FastAPI backend) |
+| **Framework / Approach** | Raw Bedrock API + custom Python orchestrator |
 | **Repository Link** | `<!-- URL GitHub/GitLab repo của nhóm -->` |
 
 ---
@@ -24,11 +32,7 @@
 > **Hướng dẫn:** Dán sơ đồ Mermaid, ảnh chụp whiteboard, hoặc export từ Draw.io/Lucidchart vào đây.  
 > Sơ đồ phải thể hiện rõ: S3 → Bedrock KB → LLM, Database/Monitoring API → Tool Functions → LLM, và luồng Memory (nếu có L4).
 
-<!-- 📸 SCREENSHOT / DIAGRAM [REQUIRED]:
-     Chèn architecture diagram của nhóm tại đây.
-     - Nếu dùng Mermaid: dán code vào block ```mermaid ... ``` bên dưới
-     - Nếu dùng ảnh: ![Architecture Diagram](./screenshots/architecture_diagram.png)
--->
+![Architecture Diagram](./L1-L2%20png/archetec.jpg)
 
 
 ---
@@ -41,8 +45,8 @@
 |-----------|-------------------|------|
 | Document Store | Amazon S3 | Lưu 36 file markdown làm nguồn dữ liệu cho RAG |
 | Vector Search & RAG | Amazon Bedrock Knowledge Bases + OpenSearch Serverless | Chunking, embedding, similarity search |
-| LLM / Reasoning | Amazon Bedrock (Claude Sonnet) |  VD: Sinh câu trả lời từ context và tool results |
-| Structured DB | SQLite |  Lưu costs, incidents, SLA targets, daily metrics  |
+| LLM / Reasoning | Amazon Bedrock (Claude Sonnet) | VD: Sinh câu trả lời từ context và tool results |
+| Structured DB | SQLite | Lưu costs, incidents, SLA targets, daily metrics |
 | Live Monitoring | Monitoring API (local Python) | Cung cấp current status, latency, error rate |
 | Tool Orchestration | Raw API | Điều phối khi nào gọi tool, khi nào retrieve |
 | Memory / State | In-memory dict | Lưu conversation history |
@@ -63,7 +67,7 @@
       │              └──► Inject chunks into prompt → Call LLM → Return answer + source
       │
       ├──── L3: Detect tool-required question
-      │         ├── Tool: query_database(sql)  →  SQLite  →  historical numbers
+      │         ├── Tool: query_database(sql)  →  SQLite/RDS  →  historical numbers
       │         └── Tool: get_service_metrics(service)  →  Monitoring API  →  live data
       │              └──► Inject tool results into prompt → Call LLM → Return answer
       │
