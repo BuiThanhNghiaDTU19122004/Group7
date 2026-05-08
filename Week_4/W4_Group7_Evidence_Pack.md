@@ -69,7 +69,6 @@
  Ảnh terminal hoặc browser cho thấy hệ thống đang chạy.
 
  ![System Running](./L1-L2%20png/tmal%20Log.png)
----
 
 ## Section 3 — Decision Log
 
@@ -247,16 +246,14 @@ Turn 4: "The postmortem mentioned a review deadline. Is it overdue?"
 
 ---
 
-### Bonus A — Observability Dashboard `[+0.5 điểm]`
+### Bonus A — Observability Dashboard
 
 
 > ![L5 Conversation 1](./L1-L2%20png/observation_board.jpg) — Observability dashboard đang process một câu hỏi
 
 ---
 
-### Bonus B — Agent Reasoning (Structured Investigation) `[+0.5 điểm]`
-
-**Status:** `<!-- Attempted ✅ / Not attempted ❌ -->`
+### Bonus B — Agent Reasoning (Structured Investigation)
 
 **Test question used:**
 ```
