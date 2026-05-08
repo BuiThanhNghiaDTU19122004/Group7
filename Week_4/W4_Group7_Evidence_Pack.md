@@ -10,17 +10,9 @@
 | Field | Value |
 |-------|-------|
 | **Group Number** | Group 7 |
-| **Member Names** | Bùi Thành Nghĩa
-Lê Thị Thùy Trang
-Trần Minh Quang
-Hoàng Kim Hùng
-Nguyễn Công Thịnh
-Phạm Công Huy
-Nguyễn Tất Văn
-Lê Nguyễn Nhật Thành
-Đỗ Phúc|
+| **Member Names** | Bùi Thành Nghĩa, Lê Thị Thùy Trang, Trần Minh Quang, Hoàng Kim Hùng, Nguyễn Công Thịnh, Phạm Công Huy, Nguyễn Tất Văn, Lê Nguyễn Nhật Thành, Đỗ Phúc|
 | **LLM Used** | Claude Sonnet 4.6 via Amazon Bedrock |
-| **Framework / Approach** | Raw Bedrock API + custom Python orchestrator |
+| **Framework / Approach** | Raw Bedrock Converse API + custom tool loop(FastAPI backend) |
 | **Repository Link** | `<!-- URL GitHub/GitLab repo của nhóm -->` |
 
 ---
@@ -71,7 +63,7 @@ Lê Nguyễn Nhật Thành
       │              └──► Inject chunks into prompt → Call LLM → Return answer + source
       │
       ├──── L3: Detect tool-required question
-      │         ├── Tool: query_database(sql)  →  SQLite/RDS  →  historical numbers
+      │         ├── Tool: query_database(sql)  →  SQLite  →  historical numbers
       │         └── Tool: get_service_metrics(service)  →  Monitoring API  →  live data
       │              └──► Inject tool results into prompt → Call LLM → Return answer
       │
