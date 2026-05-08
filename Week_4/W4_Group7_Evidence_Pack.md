@@ -68,7 +68,7 @@
 ### 2.4 System Running — Startup Screenshot
  Ảnh terminal hoặc browser cho thấy hệ thống đang chạy.
 
- ![System Running](./L1-L2%20png/tmal%20Log.png)
+ ![System Running](./L1-L2%20png/tmal.png)
 
 ## Section 3 — Decision Log
 
