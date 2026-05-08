@@ -280,13 +280,13 @@ Turn 4: "The postmortem mentioned a review deadline. Is it overdue?"
 
 > **Nhóm tự đánh giá** trước khi present — trainers sẽ verify lại.
 
-| Level | Max Points | Self-Score (1-5) | Estimated Points | Status |
+| Level | Max Points | Self-Score (1-5) | Trainers Points | Status |
 |-------|-----------|-----------------|-----------------|--------|
-| L1 — Retrieval | 2.0 | ` 2/5` | ` 2.0/2.0` | `<!-- ✅ Working -->` |
-| L2 — Multi-Source | 3.0 | ` /5` | ` 3.0/3.0` | `<!-- ✅ Working -->` |
-| L3 — Tools | 4.0 | ` /5` | ` 3.0/4.0` | `<!-- ✅ Working -->` |
-| L4 — Memory | 1.0 | ` /5` | ` 1.0/1.0` | `<!-- ✅ Working -->` |
-| **Base Total** | **10.0** | | ` 9.0/10.0` | |
-| Bonus A — Dashboard | +0.5 | — | ` 0.5/0.5` | `<!-- ✅ -->` |
-| Bonus B — Agent Reasoning | +0.5 | — | ` 0.5/0.5` | `<!-- ✅ -->` |
-| **Grand Total** | **11.0 max** | | ` 10.0/10.0` | |
+| L1 — Retrieval | 2.0 | ` 5/5` | ` -/2.0` | `<!-- ✅ Working -->` |
+| L2 — Multi-Source | 3.0 | ` 5/5` | ` -/3.0` | `<!-- ✅ Working -->` |
+| L3 — Tools | 4.0 | ` 4/5` | ` -/4.0` | `<!-- ✅ Working -->` |
+| L4 — Memory | 1.0 | ` 5/5` | ` -/1.0` | `<!-- ✅ Working -->` |
+| **Base Total** | **10.0** | | ` -/10.0` | |
+| Bonus A — Dashboard | +0.5 | 0.5 | ` -/0.5` | `<!-- ✅ -->` |
+| Bonus B — Agent Reasoning | +0.5 | 0.5 | ` -/0.5` | `<!-- ✅ -->` |
+| **Grand Total** | **11.0 max** | 10.0/10.0| ` -/10.0` | |
