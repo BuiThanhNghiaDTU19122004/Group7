@@ -11,7 +11,9 @@
 | **Group ID** | GROUP 07 |
 | **Team Members** | 1. Bùi Thành Nghĩa<br>2. Hoàng Kim Hùng<br>3. Trần Minh Quang<br>4. Nguyễn Công Thịnh<br>5. Phạm Công Huy<br>6. Lê Thị Thuỳ Trang<br>7. Lê Nguyễn Nhật Thành<br>8. Đỗ Phúc<br>9. Nguyễn Tất Văn |
 | **Repository Link** | Backend: https://github.com/lennhatthanh/Project_G7_BE <br> Frontend: https://github.com/lennhatthanh/Project_G7_FE|
-| **W5 Implementation Notes** | W5 thêm lớp hardening vào ứng dụng W4 — cùng business domain nhưng tăng security, redundancy, và scaling. |
+| Prior evidence | W4 evidence pack link: `[paste commit/file link here]` |
+| Live frontend | CloudFront frontend URL: `[paste here]` |
+| Live backend | ALB or backend CloudFront health URL: `[paste here]` |
 
 ---
 
@@ -22,12 +24,14 @@
 ## Lựa Chọn & Rationale
 
 **Architecture:** VPC Peering (Path A)
+SanGo uses two VPCs with non-overlapping CIDR blocks:
 
-**Rationale:**
-- Direct connectivity giữa 2 VPC (10.0.0.0/16 ↔ 10.1.0.0/16)
-- Chi phí thấp, setup nhanh (2 route + 1 peering connection)
-- Phù hợp với topology 2 VPC: App VPC + Bastion Host VPC
-- Không cần Transit Gateway (đơn giản hóa)
+| VPC | CIDR | Purpose |
+|---|---:|---|
+| `sango-vpc-app` | `10.0.0.0/16` | Main 3-tier application stack: ALB, EC2 ASG, EFS, RDS, Redis, Lambda |
+| `sango-vpc-mgmt` | `10.1.0.0/16` | Management plane: Bastion host for private access |
+
+VPC Peering is the right choice because the project has exactly two VPCs, needs direct private connectivity from Bastion to the app tier, and does not need transitive routing or hub-and-spoke connectivity. Transit Gateway would add cost and complexity without a current routing need.
 
 ---
 
@@ -67,18 +71,6 @@
 
 ---
 
-<!-- ### Checklist MH1
-
-- [ ] Peering Connection status = **Active**
-- [ ] Route Table 2 chiều (RT1 + RT2) cấu hình đúng
-- [ ] VPC Flow Logs group: `/aws/vpc/w5-flowlogs`
-- [ ] Flow Logs có ACCEPT entries cho cross-VPC traffic
-- [ ] Ping test: 0% packet loss -->
-
----
-
----
-
 # MH2 — Network Firewall / Hardened SG+NACL
 
 ## Lựa Chọn & Rationale
@@ -86,11 +78,9 @@
 **Architecture:** AWS Network Firewall + Stateful Domain-Based Rules
 
 **Rationale:**
-- Layer 7 domain filtering (allowlist: .amazonaws.com, github.com, pypi.org)
+SanGo must use Network Firewall because private app EC2 instances have outbound internet access through NAT Gateway. The W5 guide says SG+NACL-only hardening is not valid when EC2 or Lambda reaches the internet through NAT.
 - Defense-in-depth: Firewall → Private Subnet → Security Group
-- Egress traffic control (outbound whitelist)
 - Centralized logging (CloudWatch Logs)
-
 ---
 
 ## Evidence
@@ -151,31 +141,14 @@
 
 ---
 
-<!-- ### Checklist MH2
-
-- [ ] Firewall subnet created (10.0.3.0/28 separate)
-- [ ] Rule Group with 5 domains (ALLOWLIST)
-- [ ] Private route: 0.0.0.0/0 → Firewall Endpoint
-- [ ] Firewall subnet route: 0.0.0.0/0 → NAT Gateway
-- [ ] Logging: `/aws/network-firewall/w5-alerts` with ALERT entries
-- [ ] curl allowed domains: HTTP 200 ✅
-- [ ] curl blocked domain: Connection timeout ✅ -->
-
----
-
----
-
 # MH3 — File Storage + Backup Plan
 
 ## Lựa Chọn & Rationale
 
-**Architecture:** Amazon EFS + AWS Backup (3 resource types)
+**Architecture:** Amazon EFS + AWS Backup
 
 **Rationale:**
-- Shared NFS storage, mountable from private subnet
-- AWS Backup covers EFS + RDS + EBS (redundancy across W2, W3, W5)
-- Restore test mandatory (backup without restore = no recovery)
-- Encryption by default + NFS over TLS
+SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS is appropriate for shared POSIX/NFS storage. It supports multi-AZ mount targets and lets app instances share uploaded venue files or fallback shared content under `/mnt/efs/uploads`.
 
 ---
 
@@ -228,20 +201,6 @@
 ![MH3_Restored_Data_Verified](./screenshots/MH3_restored_data_verified.png)
 
 **Mounted restored EFS at /mnt/restored-efs:**
-
----
-
-<!-- ### Checklist MH3
-
-- [ ] EFS created, mount target in private subnet
-- [ ] EFS SG: only from app-tier SG (no 0.0.0.0/0)
-- [ ] Files written + read successfully
-- [ ] Backup Plan covers 3 resources (EFS + RDS + EBS)
-- [ ] Schedule: daily at 2AM UTC, retention: 7 days
-- [ ] Restore job: COMPLETED
-- [ ] Restored data verified — exact match ✅ -->
-
----
 
 ---
 
