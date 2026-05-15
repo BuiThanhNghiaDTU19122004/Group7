@@ -165,10 +165,6 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 ![MH3_EFS_Read_Write](./img/MH3_efs_read_write.png)
 
-**app-config.txt:**
-
-**session-store.json:**
-
 ---
 
 ### Screenshot 3: Backup Plan Configuration
