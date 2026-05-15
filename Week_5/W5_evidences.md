@@ -32,8 +32,8 @@ SanGo uses two VPCs with non-overlapping CIDR blocks:
 
 | VPC | CIDR | Purpose |
 |---|---:|---|
-| `sango-vpc-app` | `10.0.0.0/16` | Main 3-tier application stack: ALB, EC2 ASG, EFS, RDS, Redis, Lambda |
-| `sango-vpc-mgmt` | `10.1.0.0/16` | Management plane: Bastion host for private access |
+| `hung-service-app-vpc` | `10.0.0.0/16` | Main 3-tier application stack: ALB, EC2 ASG, EFS, RDS, Redis, Lambda |
+| `hung-service-mgmt-vpc` | `10.1.0.0/16` | Management plane: Bastion host for private access |
 
 VPC Peering is the right choice because the project has exactly two VPCs, needs direct private connectivity from Bastion to the app tier, and does not need transitive routing or hub-and-spoke connectivity. Transit Gateway would add cost and complexity without a current routing need.
 
