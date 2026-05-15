@@ -11,7 +11,7 @@
 | **Group ID** | GROUP 07 |
 | **Team Members** | 1. Bùi Thành Nghĩa<br>2. Hoàng Kim Hùng<br>3. Trần Minh Quang<br>4. Nguyễn Công Thịnh<br>5. Phạm Công Huy<br>6. Lê Thị Thuỳ Trang<br>7. Lê Nguyễn Nhật Thành<br>8. Đỗ Phúc<br>9. Nguyễn Tất Văn |
 | **Repository Link** | Backend: https://github.com/lennhatthanh/Project_G7_BE <br> Frontend: https://github.com/lennhatthanh/Project_G7_FE|
-| Prior evidence | W4 evidence pack link: `[paste commit/file link here]` |
+| Prior evidence | W4 evidence pack link: https://github.com/BuiThanhNghiaDTU19122004/Group7/blob/main/Week_4/W4_Group7_Evidence_Pack.md |
 | Live frontend | CloudFront frontend URL: `[paste here]` |
 | Live backend | ALB or backend CloudFront health URL: `[paste here]` |
 
