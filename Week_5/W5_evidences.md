@@ -99,15 +99,15 @@ SanGo must use Network Firewall because private app EC2 instances have outbound 
 
 ### Screenshot 3: Route Table — Private Subnet
 
-![MH2_Route_Private](./img/MH2_route_private.png)
-
+![MH2_Route_Private](./img/MH1_route_table_az_a_vpc1.png)
+![MH2_Route_Private](./img/MH1_route_table_az_b_vpc1.png)
 
 ---
 
 ### Screenshot 4: Route Table — Firewall Subnet
 
-![MH2_Route_Firewall](./img/MH2_route_firewall.png)
-
+![MH2_Route_Firewall](./img/MH2_route_firewall_az_a.png)
+![MH2_Route_Firewall](./img/MH2_route_firewall_az_b.png)
 
 ---
 
@@ -154,7 +154,9 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 ![MH3_EFS_Mount_Private](./img/MH3_efs_mount_private.png)
 
-**Info (1 line):**
+**EFS File System And Mount Targets**
+
+![MH3_EFS_Mount_Target](./img/MH3_efs_mount_target.png)
 
 ---
 
