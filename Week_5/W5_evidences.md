@@ -59,12 +59,13 @@ VPC Peering is the right choice because the project has exactly two VPCs, needs 
 
 ### Screenshot 4: VPC Flow Logs — ACCEPT Entries
 
-![MH1_FlowLogs_Accept](./screenshots/MH1_flowlogs_accept.png)
+![MH1_FlowLogs_Accept](./img/MH1_flowlogs_accept.png)
 
 **Sample (from CloudWatch):**
 
 
 **Ping test result:**
+![MH1_Ping_Result](./img/MH1_ping_result.png)
 
 ---
 
@@ -193,7 +194,7 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 ### Screenshot 6:   ✅
 
-![MH3_Restored_Data_Verified](./screenshots/MH3_restored_data_verified.png)
+![MH3_Restored_Data_Verified](./img/MH3_restored_data_verified.png)
 
 **Mounted restored EFS at /mnt/restored-efs:**
 
@@ -205,54 +206,52 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 **Architecture:** REST API + Lambda Authorizer (or API Key)
 
-**Rationale:**
-- Expose backend functions securely via HTTPS
-- Authorization enforced (Lambda Authorizer or API Key)
-- 200: authorized requests allowed
-- 403: unauthorized requests rejected
+This is the easiest meaningful endpoint because it maps directly to the existing serverless layer in Terraform:
+
+- API Gateway HTTP API: `chatbox-usage-plan`
+- Route: `POST /chatbox`
+- Integration: Lambda proxy -> `project-g7-get-san-choi`
+- Authentication: Lambda authorizer -> `chatbox-api-keyr`
+- Header checked: `x-api-key`
+- Throttling: HTTP API stage default route settings, rate `100`, burst `200`
 
 ---
 
 ## Evidence
 
-### Screenshot 1: API Resource Tree
+### Screenshot 1: API Gateway Route
 
-![MH4_API_Resources](./screenshots/MH4_api_resources.png)
+![MH4_01_api_route_post_ask](./img/MH4_01_apigw_route.png)
 
-**Structure:**
+**Where to capture:** AWS Console -> API Gateway -> APIs -> `sango-bedrock-api` -> Routes.
+
+**Configuration note:** Route `POST /ask` is integrated with `sango-bedrock-kb-function` using Lambda proxy integration.
 
 ---
 
-### Screenshot 2: Authorization Configuration
+### Screenshot 2: Lambda Authorizer
 
-![MH4_Auth_Config](./screenshots/MH4_auth_config.png)
+![MH4_Auth_Config](./img/MH4_auth_config.png)
 
 **Method Details (1 line):**
 
 ---
+### Screenshot 3: Stage Throttling
+![MH4_Stage_Throttling](./img/MH4_stage_throttling.png)
 
+**Method Details (1 line):**
+
+---
 ### Screenshot 3: Test 200 — Authorized Request ✅
 
-![MH4_Test_200_Authorized](./screenshots/MH4_test_200_authorized.png)
+![MH4_Test_200_Authorized](./img/MH4_test_200_authorized.png)
 
 
 ---
 
 ### Screenshot 4: Test 403 — Unauthorized Request ❌
 
-![MH4_Test_403_Unauthorized](./screenshots/MH4_test_403_unauthorized.png)
-
-
----
-
-### Checklist MH4
-
-- [ ] API created with resources (/users, /products, etc.)
-- [ ] Authorization method configured (Lambda / API Key)
-- [ ] curl 200: valid token → success
-- [ ] curl 403: invalid token → unauthorized
-
----
+![MH4_Test_403_Unauthorized](./img/MH4_test_403_unauthorized.png)
 
 ---
 
@@ -288,7 +287,7 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 #### Screenshot 1: Lambda Configuration
 
-![MH5_Lambda_Config_Reserved](./screenshots/MH5_lambda_config_reserved.png)
+![MH5_Lambda_Config_Reserved](./img/MH5_lambda_config_reserved.png)
 
 **Info:**
 
@@ -296,7 +295,7 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 #### Screenshot 2: CloudWatch Throttles Metric
 
-![MH5_CloudWatch_Throttles](./screenshots/MH5_cloudwatch_throttles.png)
+![MH5_CloudWatch_Throttles](./img/MH5_cloudwatch_throttles.png)
 
 **During load test (20 concurrent invokes, limit=5):**
 
@@ -332,21 +331,6 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 **After 2 retries + ~5 min:**
 
----
-
-<!-- ### Checklist MH5
-
-- [ ] **Option A (Reserved Concurrency):**
-  - Reserved concurrency set on production function
-  - Load test shows throttling (HTTP 429)
-  - CloudWatch Throttles metric > 0 ✅
-
-- [ ] **Option B (Async + DLQ):**
-  - DLQ configured on Lambda function
-  - Async invocation (type=Event) returns 202
-  - Failed message appears in DLQ with error details ✅ -->
-
----
 
 ---
 
@@ -375,16 +359,6 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 ![CarryForward_Database](./screenshots/CarryForward_database.png)
 
 **Query + Result (1-2 lines):**
-
----
-
-<!-- ### Checklist Carry-Forward
-
-- [ ] CI/CD pipeline executed successfully (all stages PASSED)
-- [ ] Bedrock query returned response (working)
-- [ ] Database query returned results (working) -->
-
----
 
 ---
 
@@ -472,52 +446,6 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 ![SecurityTest_RateLimit](./screenshots/SecurityTest_6_rate_limit.png)
 
-**Result:** 
-
----
-
-<!-- ### Checklist Security Tests
-
-- [ ] SQLi test: HTTP 400 (blocked) ✅
-- [ ] XSS test: HTTP 400 (blocked) ✅
-- [ ] Firewall domain block: timeout (blocked) ✅
-- [ ] API auth rejection: HTTP 403 (blocked) ✅
-- [ ] CORS blocking: policy rejected ✅
-- [ ] Rate limiting: HTTP 429 (throttled) ✅ -->
-
----
-
----
-
-# Bonus Section (Optional)
-
----
-
-## NACL Configuration (if applicable)
-
-**Inbound Rules:**
-
-
-**Outbound Rules:** 
-
----
-
-## Security Group Rules (for reference)
-
-**App Tier SG (Inbound):**
-
-**EFS Mount SG (Inbound):**
----
-
-## Additional Hardening Steps
-
-- [ ] Enable VPC Flow Logs
-- [ ] Enable CloudTrail logging
-- [ ] Set up CloudWatch alarms for failed authentications
-- [ ] Enable WAF on API Gateway (optional)
-- [ ] Encrypt RDS at rest + in transit
-
----
 
 ---
 
