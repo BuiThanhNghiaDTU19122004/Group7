@@ -215,11 +215,6 @@ This is the easiest meaningful endpoint because it maps directly to the existing
 ![MH4_Auth_Config](./img/MH4_auth_config.png)
 
 ---
-### Screenshot 3: Stage Throttling
-![MH4_Stage_Throttling](./img/MH4_stage_throttling.png)
-
-
----
 ### Screenshot 3: Test 200 — Authorized Request ✅
 
 ![MH4_Test_200_Authorized](./img/MH4_test_200_authorized.png)
