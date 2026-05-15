@@ -45,7 +45,7 @@ VPC Peering is the right choice because the project has exactly two VPCs, needs 
 
 ### Screenshot 2: Route Table — AZ A
 
-![MH1_RouteTable_VPC1](./img/MH1_route_table_az_b_vpc1.png)
+![MH1_RouteTable_VPC1](./img/MH1_route_table_az_a_vpc1.png)
 
 
 ---
@@ -151,8 +151,9 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 ## Evidence
 
 ### Screenshot 1: EFS Mount — Private Subnet
-
 ![MH3_EFS_Mount_Private](./img/MH3_efs_mount_private.png)
+
+![MH3_EFS_Mount](./img/MH3_efs_mount_console.png)
 
 **EFS File System And Mount Targets**
 
@@ -194,7 +195,7 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 ---
 
-### Screenshot 6: Restored Data — Verified ✅
+### Screenshot 6:   ✅
 
 ![MH3_Restored_Data_Verified](./screenshots/MH3_restored_data_verified.png)
 
