@@ -39,23 +39,20 @@ VPC Peering is the right choice because the project has exactly two VPCs, needs 
 
 ### Screenshot 1: VPC Peering Status
 
-![MH1_Peering_Status](./screenshots/MH1_peering_status.png)
+![MH1_Peering_Status](./img/MH1_peering_status.png)
 
-**Info to capture (1-2 lines):**
+---
+
+### Screenshot 2: Route Table — AZ A
+
+![MH1_RouteTable_VPC1](./img/MH1_route_table_az_b_vpc1.png)
 
 
 ---
 
-### Screenshot 2: Route Table — VPC 1
+### Screenshot 3: Route Table — AZ B
 
-![MH1_RouteTable_VPC1](./screenshots/MH1_route_table_vpc1.png)
-
-
----
-
-### Screenshot 3: Route Table — VPC 2
-
-![MH1_RouteTable_VPC2](./screenshots/MH1_route_table_vpc2.png)
+![MH1_RouteTable_VPC2](./img/MH1_route_table_az_b_vpc1.png)
 
 
 ---
@@ -87,15 +84,14 @@ SanGo must use Network Firewall because private app EC2 instances have outbound 
 
 ### Screenshot 1: Firewall Configuration
 
-![MH2_Firewall_Config](./screenshots/MH2_firewall_config.png)
-
-**Info:**
+![MH2_Firewall_Config](./img/MH2_firewall_config_overview.png)
+![MH2_Firewall_Config](./img/MH2_firewall_config_AttachmentAttachment_Details.png)
 
 ---
 
 ### Screenshot 2: Rule Group — Domain Allowlist
 
-![MH2_RuleGroup_Allowlist](./screenshots/MH2_rulegroup_allowlist.png)
+![MH2_RuleGroup_Allowlist](./img/MH2_rulegroup_allowlist.png)
 
 **Allowed Domains:**
 
@@ -103,35 +99,35 @@ SanGo must use Network Firewall because private app EC2 instances have outbound 
 
 ### Screenshot 3: Route Table — Private Subnet
 
-![MH2_Route_Private](./screenshots/MH2_route_private.png)
+![MH2_Route_Private](./img/MH2_route_private.png)
 
 
 ---
 
 ### Screenshot 4: Route Table — Firewall Subnet
 
-![MH2_Route_Firewall](./screenshots/MH2_route_firewall.png)
+![MH2_Route_Firewall](./img/MH2_route_firewall.png)
 
 
 ---
 
 ### Screenshot 5: Test — Allowed Request (HTTP 200) ✅
 
-![MH2_Test_Allowed_200](./screenshots/MH2_test_allowed_200.png)
+![MH2_Test_Allowed_200](./img/MH2_test_allowed_200.png)
 
 
 ---
 
 ### Screenshot 6: Test — Blocked Request (Negative Test) ❌
 
-![MH2_Test_Blocked_Timeout](./screenshots/MH2_test_blocked_timeout.png)
+![MH2_Test_Blocked_Timeout](./img/MH2_test_blocked_timeout.png)
 
 
 ---
 
 ### Screenshot 7: CloudWatch Alert Logs
 
-![MH2_CloudWatch_Alerts](./screenshots/MH2_cloudwatch_alerts.png)
+![MH2_CloudWatch_Alerts](./img/MH2_cloudwatch_alerts.png)
 
 **Alert entry (blocked domain):**
 
@@ -156,7 +152,7 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 ### Screenshot 1: EFS Mount — Private Subnet
 
-![MH3_EFS_Mount_Private](./screenshots/MH3_efs_mount_private.png)
+![MH3_EFS_Mount_Private](./img/MH3_efs_mount_private.png)
 
 **Info (1 line):**
 
@@ -164,7 +160,7 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 ### Screenshot 2: EFS Read/Write Test
 
-![MH3_EFS_Read_Write](./screenshots/MH3_efs_read_write.png)
+![MH3_EFS_Read_Write](./img/MH3_efs_read_write.png)
 
 **app-config.txt:**
 
@@ -174,7 +170,7 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 ### Screenshot 3: Backup Plan Configuration
 
-![MH3_BackupPlan_Config](./screenshots/MH3_backupplan_config.png)
+![MH3_BackupPlan_Config](./img/MH3_backupplan_config.png)
 
 **Info (1-2 lines):**
 
@@ -182,7 +178,7 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 ### Screenshot 4: Backup Job — COMPLETED
 
-![MH3_BackupJob_Completed](./screenshots/MH3_backupjob_completed.png)
+![MH3_BackupJob_Completed](./img/MH3_backupjob_completed.png)
 
 **Info:**
 
@@ -190,7 +186,7 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 ### Screenshot 5: Restore Job — COMPLETED
 
-![MH3_RestoreJob_Completed](./screenshots/MH3_restorejob_completed.png)
+![MH3_RestoreJob_Completed](./img/MH3_restorejob_completed.png)
 
 **Info:**
 
