@@ -189,7 +189,8 @@ SanGo app tier runs on Amazon Linux EC2 instances in private app subnets, so EFS
 
 ## Lựa Chọn & Rationale
 
-**Architecture:** REST API + Lambda Authorizer (or API Key)
+**Architecture:** REST API + Lambda Authorizer
+![API-gateway-and-lambda](./img/MH4-API%20gateway.png)
 
 This is the easiest meaningful endpoint because it maps directly to the existing serverless layer in Terraform:
 
