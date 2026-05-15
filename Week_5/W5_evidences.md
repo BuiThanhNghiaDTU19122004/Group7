@@ -17,11 +17,15 @@
 
 ---
 
+## Architecture Diagram
+
+![00_architecture_w5_final](./img/w5_architecture_overview.png)
+![00_architecture_w5_final](./img/w5_architecture_peering_connection.png)
 ---
 
 # MH1 — Multi-VPC Connectivity
 
-## Lựa Chọn & Rationale
+## Chosen Path And Rationale
 
 **Architecture:** VPC Peering (Path A)
 SanGo uses two VPCs with non-overlapping CIDR blocks:
@@ -128,7 +132,8 @@ SanGo must use Network Firewall because private app EC2 instances have outbound 
 
 ### Screenshot 7: CloudWatch Alert Logs
 
-![MH2_CloudWatch_Alerts](./img/MH2_cloudwatch_alerts.png)
+![MH2_CloudWatch_Alerts](./img/MH2_cloudwatch_alerts1.png)
+![MH2_CloudWatch_Alerts](./img/MH2_cloudwatch_alerts2.png)
 
 **Alert entry (blocked domain):**
 
@@ -223,17 +228,11 @@ This is the easiest meaningful endpoint because it maps directly to the existing
 
 ![MH4_01_api_route_post_ask](./img/MH4_01_apigw_route.png)
 
-**Where to capture:** AWS Console -> API Gateway -> APIs -> `sango-bedrock-api` -> Routes.
-
-**Configuration note:** Route `POST /ask` is integrated with `sango-bedrock-kb-function` using Lambda proxy integration.
-
 ---
 
-### Screenshot 2: Lambda Authorizer
+### Screenshot 2: API KEY
 
 ![MH4_Auth_Config](./img/MH4_auth_config.png)
-
-**Method Details (1 line):**
 
 ---
 ### Screenshot 3: Stage Throttling
@@ -254,114 +253,6 @@ This is the easiest meaningful endpoint because it maps directly to the existing
 ![MH4_Test_403_Unauthorized](./img/MH4_test_403_unauthorized.png)
 
 ---
-
-# MH5 — Serverless Scaling Pattern
-
-## Lựa Chọn & Rationale
-
-**Pattern:** [Reserved Concurrency / Async + DLQ] ← **chọn 1**
-
-### Option A: Reserved Concurrency
-
-**Rationale:**
-- Guarantee max N concurrent executions
-- Prevent runaway costs + throttling
-- Good for batch processing (S3, SQS triggers)
-
----
-
-### Option B: Async + DLQ
-
-**Rationale:**
-- Handle failures gracefully (retry + DLQ)
-- Decoupling invocation from execution
-- Good for long-running tasks (Bedrock, DB queries)
-
----
-
-## Evidence (Choose ONE)
-
----
-
-### Option A — Reserved Concurrency Evidence
-
-#### Screenshot 1: Lambda Configuration
-
-![MH5_Lambda_Config_Reserved](./img/MH5_lambda_config_reserved.png)
-
-**Info:**
-
----
-
-#### Screenshot 2: CloudWatch Throttles Metric
-
-![MH5_CloudWatch_Throttles](./img/MH5_cloudwatch_throttles.png)
-
-**During load test (20 concurrent invokes, limit=5):**
-
----
-
-#### Screenshot 3: Load Test Output
-
-![MH5_LoadTest_Output](./screenshots/MH5_loadtest_output.png)
-
-
----
-
-### Option B — Async + DLQ Evidence
-
-#### Screenshot 1: Lambda DLQ Configuration
-
-![MH5_Lambda_Config_DLQ](./screenshots/MH5_lambda_config_dlq.png)
-
-**Info:**
-
----
-
-#### Screenshot 2: Async Invocation Test
-
-![MH5_Async_Invocation](./screenshots/MH5_async_invocation.png)
-
-
----
-
-#### Screenshot 3: DLQ Message
-
-![MH5_DLQ_Message](./screenshots/MH5_dlq_message.png)
-
-**After 2 retries + ~5 min:**
-
-
----
-
-# Application Carry-Forward Verification
-
----
-
-## Screenshot 1: CI/CD Pipeline Execution
-
-![CarryForward_Pipeline](./screenshots/CarryForward_pipeline.png)
-
-**Info (1-2 lines):**
-
----
-
-## Screenshot 2: Bedrock Retrieval Test
-
-![CarryForward_Bedrock](./screenshots/CarryForward_bedrock.png)
-
-**Prompt + Response (1-2 lines):**
-
----
-
-## Screenshot 3: Database Query Execution
-
-![CarryForward_Database](./screenshots/CarryForward_database.png)
-
-**Query + Result (1-2 lines):**
-
----
-
 # Negative Security Tests
 
 ---
